@@ -19,13 +19,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        repository: $REPO
+        repository: '$REPO'
         token: ${{ secrets.GH_TOKEN }}
       
     - name: write new value
       run: |-
-          git config user.name $USER
-          git config user.email $EMAIL
+          git config user.name '$USER'
+          git config user.email '$EMAIL'
           yq -i  '.somethingElse = "different-value"' values.yaml
           git add values.yaml
           git commit -m "updating somethingElse to different value"
