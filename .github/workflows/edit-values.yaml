@@ -1,0 +1,33 @@
+name: edit values file in other repo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest    
+    env:
+      USER: alexcamero
+      EMAIL: alexcamero@gmail.com
+      REPO: alexcamero/gh-actions-sandbox-2
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        repository: $REPO
+        token: ${{ secrets.GH_TOKEN }}
+      
+    - name: write new value
+      run: |-
+          git config user.name $USER
+          git config user.email $EMAIL
+          yq -i  '.somethingElse = "different-value"' values.yaml
+          git add values.yaml
+          git commit -m "updating somethingElse to different value"
+          git push
+        
