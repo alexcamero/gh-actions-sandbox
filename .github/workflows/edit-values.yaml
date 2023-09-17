@@ -15,10 +15,9 @@ jobs:
     - name: Get updated values
       id: get-values
       run: |-
-        EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        echo "new_values<<$EOF" >> $GITHUB_OUTPUT
+        echo "new_values<<EOF" >> $GITHUB_OUTPUT
         echo "$(cat values.yaml)" >> $GITHUB_OUTPUT
-        echo "$EOF" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Checkout
       uses: actions/checkout@v3
