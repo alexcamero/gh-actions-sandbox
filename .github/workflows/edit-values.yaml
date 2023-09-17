@@ -30,7 +30,7 @@ jobs:
       run: |-
           git config user.name alexcamero
           git config user.email alexcamero@gmail.com
-          echo ${{ steps.get-values.outputs.new_values }} > values.yaml
+          echo "${{ steps.get-values.outputs.new_values }}" > values.yaml
           git add values.yaml
           git commit -m "updating values file"
           git push
