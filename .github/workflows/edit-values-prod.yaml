@@ -1,0 +1,38 @@
+name: edit values file in other repo
+
+on:
+  push:
+    tags:
+      - prod-release-*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest    
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Get updated values
+      id: get-values
+      run: |-
+        echo "new_values<<EOF" >> $GITHUB_OUTPUT
+        echo "$(cat prod-values.yaml)" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        repository: alexcamero/gh-actions-sandbox-2
+        token: ${{ secrets.GH_TOKEN }}
+      
+    - name: write new value
+      run: |-
+          git config user.name alexcamero
+          git config user.email alexcamero@gmail.com
+          echo "${{ steps.get-values.outputs.new_values }}" > prod-values.yaml
+          yq -i  '.latestSha = "${{ github.sha }}"' prod-values.yaml
+          git add prod-values.yaml
+          git commit -m "updating values file and latestSha --> $GITHUB_SHA"
+          git push
+        
