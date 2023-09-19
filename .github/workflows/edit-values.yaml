@@ -30,6 +30,7 @@ jobs:
           git config user.name alexcamero
           git config user.email alexcamero@gmail.com
           echo "${{ steps.get-values.outputs.new_values }}" > values.yaml
+          yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
           git add values.yaml
           git commit -m "updating values file and latestSha --> $GITHUB_SHA"
           git push
