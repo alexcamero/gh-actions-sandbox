@@ -25,6 +25,7 @@ jobs:
         git config --global user.name "alexcamero"
         git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
         cp -rvf ./git-approach/ ./repo-2/
+        cp -rvf ./values.yaml ./repo-2/
         cd repo-2
         yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
         git add .
