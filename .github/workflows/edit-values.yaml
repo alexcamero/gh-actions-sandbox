@@ -12,26 +12,35 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Get updated values
-      id: get-values
-      run: |-
-        echo "new_values<<EOF" >> $GITHUB_OUTPUT
-        echo "$(cat values.yaml)" >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
+    # - name: Get updated values
+    #   id: get-values
+    #   run: |-
+    #     echo "new_values<<EOF" >> $GITHUB_OUTPUT
+    #     echo "$(cat values.yaml)" >> $GITHUB_OUTPUT
+    #     echo "EOF" >> $GITHUB_OUTPUT
 
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        repository: alexcamero/gh-actions-sandbox-2
-        token: ${{ secrets.GH_TOKEN }}
-      
-    - name: write new value
+    - name: try git approach
       run: |-
-          git config user.name alexcamero
-          git config user.email alexcamero@gmail.com
-          echo "${{ steps.get-values.outputs.new_values }}" > values.yaml
-          yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
-          git add values.yaml
-          git commit -m "updating values file and latestSha --> $GITHUB_SHA"
-          git push
+        git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git"
+        mkdir -p /git-approach
+        cp -rvf /git-approach /git-approach
+        git add .
+        git diff-index --quiet HEAD || git commit --message "files updated with git approach"
+        git push origin
+
+
+    # - name: Checkout
+    #   uses: actions/checkout@v3
+    #   with:
+    #     repository: alexcamero/gh-actions-sandbox-2
+    #     token: ${{ secrets.GH_TOKEN }}
+      
+    # - name: write new value
+    #   run: |-
+          
+    #       echo "${{ steps.get-values.outputs.new_values }}" > values.yaml
+    #       yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
+    #       git add values.yaml
+    #       git commit -m "updating values file and latestSha --> $GITHUB_SHA"
+    #       git push
         
