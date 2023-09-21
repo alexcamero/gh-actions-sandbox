@@ -21,9 +21,10 @@ jobs:
 
     - name: try git approach
       run: |-
-        git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git"
-        mkdir -p /git-approach
-        cp -rvf /git-approach /git-approach
+        rm -rf .git
+        git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
+        cp -rvf ./git-approach ./repo-2/git-approach
+        cd repo-2
         git add .
         git diff-index --quiet HEAD || git commit --message "files updated with git approach"
         git push origin
