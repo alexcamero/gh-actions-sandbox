@@ -24,10 +24,10 @@ jobs:
         git config --global user.email "alexcamero@gmail.com"
         git config --global user.name "alexcamero"
         git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
-        cp -rvf ./git-approach/ ./repo-2/git-approach/
+        cp -rvf ./git-approach/ ./repo-2/
         cd repo-2
         git add .
-        git diff-index --quiet HEAD || git commit --message "files updated with git approach"
+        git diff-index --quiet HEAD || git commit --message "files updated with git approach take 2"
         git push origin
 
 
