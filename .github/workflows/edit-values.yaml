@@ -21,8 +21,8 @@ jobs:
 
     - name: try git approach
       run: |-
-        git config user.email "alexcamero@gmail.com"
-        git config user.name "alexcamero"
+        git config --global user.email "alexcamero@gmail.com"
+        git config --global user.name "alexcamero"
         git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
         cp -rvf ./git-approach/ ./repo-2/git-approach/
         cd repo-2
