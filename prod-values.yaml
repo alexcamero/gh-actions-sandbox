@@ -2,3 +2,4 @@ something: weAreInProd
 soemthingElse: andThisToo
 newOne: heyProd
 anotherNewOne: heyProdAgain
+yetAnother: "{{ github.sha }}" # should just be code, not a mistake, just a test
