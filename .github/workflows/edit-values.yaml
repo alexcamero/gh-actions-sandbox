@@ -26,6 +26,7 @@ jobs:
         git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
         cp -rvf ./git-approach/ ./repo-2/
         cd repo-2
+        yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
         git add .
         git diff-index --quiet HEAD || git commit --message "files updated with git approach take 2"
         git push origin
