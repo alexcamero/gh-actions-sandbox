@@ -21,7 +21,6 @@ jobs:
 
     - name: try git approach
       run: |-
-        rm -rf .git
         git config user.email "alexcamero@gmail.com"
         git config user.name "alexcamero"
         git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
