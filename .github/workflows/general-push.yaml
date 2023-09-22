@@ -24,8 +24,13 @@ jobs:
           do
             if echo "$file" | grep -q -E "$re"; then
               echo "$file"
+              done=yep
+              break
             fi
           done
+          if $done=="yep"; then
+            break
+          fi
         done
 
   # edit-values:
