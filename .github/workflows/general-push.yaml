@@ -15,8 +15,8 @@ jobs:
 
     - name: see list
       run: |-
-        IFS=' ' read -ra changed_files <<< echo $(git diff --name-only HEAD^ HEAD)
-        for file in "{changed_files[@]}"; do
+        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+        do
           echo "$file"
         done
 
