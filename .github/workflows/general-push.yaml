@@ -28,7 +28,7 @@ jobs:
               break
             fi
           done
-          if $done=="yep"; then
+          if [[ $done == yep ]]; then
             break
           fi
         done
