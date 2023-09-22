@@ -5,9 +5,12 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-first:
     runs-on: ubuntu-latest    
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+  call-second:
+    uses: ./.github/workflows/this-second.yaml
