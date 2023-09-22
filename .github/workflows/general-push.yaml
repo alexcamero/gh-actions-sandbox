@@ -6,6 +6,9 @@ on:
 
 jobs:
   get-diff:
-    echo $(git diff-tree --no-commit-id --name-only -r HEAD)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
   # edit-values:
   #   uses: ./.github/workflows/edit-values.yaml
