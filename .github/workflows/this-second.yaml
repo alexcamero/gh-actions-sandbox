@@ -1,8 +1,8 @@
-name: this one happens seond
+name: this one happens second
 
 on:
   workflow_run:
-    workflows: [this one happens first]
+    workflows: [workflow_call]
 
 jobs:
   build:
