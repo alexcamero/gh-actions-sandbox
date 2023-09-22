@@ -13,10 +13,12 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: git diff maybe
-      run: echo $(git diff --name-only HEAD^ HEAD)
+    - name: see list
+      run: |-
+        IFS=' ' read -ra changed_files <<< echo $(git diff --name-only HEAD^ HEAD)
+        for file in "{changed_files[@]}"; do
+          echo "$file"
+        done
 
-    - name: see the diff
-      run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
   # edit-values:
   #   uses: ./.github/workflows/edit-values.yaml
