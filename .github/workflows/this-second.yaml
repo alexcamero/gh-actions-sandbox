@@ -10,4 +10,5 @@ jobs:
     - name: Checkout second
       uses: actions/checkout@v3
 
-    -name: and now do this thing here
+    - name: and now do this thing here
+      run: echo "hey there"
