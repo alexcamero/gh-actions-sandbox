@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  SPECIAL_FILES: "git-approach/* anotherfilehere"
+
 jobs:
   get-diff:
     runs-on: ubuntu-latest
@@ -17,7 +20,12 @@ jobs:
       run: |-
         for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
         do
-          echo "$file"
+          for re in $SPECIAL_FILES
+          do
+            if echo "$file" | grep -q -E "$re"; then
+              echo "$file"
+            fi
+          done
         done
 
   # edit-values:
