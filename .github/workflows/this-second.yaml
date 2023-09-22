@@ -1,8 +1,6 @@
 name: this one happens second
 
-on:
-  workflow_run:
-    workflows: [workflow_call]
+on: [workflow_call]
 
 jobs:
   build-second:
