@@ -11,6 +11,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: git status
+      run: echo $(git status)
+
     - name: see the diff
       run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
   # edit-values:
