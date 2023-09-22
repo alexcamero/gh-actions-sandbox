@@ -10,9 +10,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
 
-    - name: git status
-      run: echo $(git status)
+    - name: git diff maybe
+      run: echo $(git diff --name-only HEAD^ HEAD)
 
     - name: see the diff
       run: echo $(git diff-tree --no-commit-id --name-only -r HEAD)
