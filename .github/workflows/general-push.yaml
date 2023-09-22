@@ -1,0 +1,11 @@
+name: general push
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  get-diff:
+    echo $(git diff-tree --no-commit-id --name-only -r HEAD)
+  # edit-values:
+  #   uses: ./.github/workflows/edit-values.yaml
