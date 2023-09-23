@@ -1,0 +1,63 @@
+name: file diff
+
+on: [workflow_call]
+
+env:
+  SPECIAL_FILES: "git-approach/* anotherfilehere"
+  EXTRA_SPECIAL_FILES: "this_dir"
+
+jobs:
+  get-diff:
+    runs-on: ubuntu-latest
+
+    outputs:
+      special: ${{ steps.special.outputs.match }}
+      extra-special: ${{ steps.extra-special.outputs.match }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: check for special
+      id: special
+      run: |-
+        echo "match=false" >> "$GITHUB_OUTPUT"
+        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+        do
+          for re in $SPECIAL_FILES
+          do
+            if echo "$file" | grep -q -E "$re"; then
+              match=1
+              break
+            fi
+          done
+          if [[ $match == 1 ]]; then
+            break
+          fi
+        done
+        if [[ $match == 1 ]]; then
+            echo "match=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: check for extra special
+      id: extra-special
+      run: |-
+        echo "match=false" >> "$GITHUB_OUTPUT"
+        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+        do
+          for re in $EXTRA_SPECIAL_FILES
+          do
+            if echo "$file" | grep -q -E "$re"; then
+              match=1
+              break
+            fi
+          done
+          if [[ $match == 1 ]]; then
+            break
+          fi
+        done
+        if [[ $match == 1 ]]; then
+            echo "match=true" >> "$GITHUB_OUTPUT"
+        fi

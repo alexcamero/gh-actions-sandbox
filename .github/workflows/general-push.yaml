@@ -4,34 +4,21 @@ on:
   push:
     branches: [ main ]
 
-env:
-  SPECIAL_FILES: "git-approach/* anotherfilehere"
-
 jobs:
   get-diff:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 2
+    uses: ./.github/workflows/file-diff.yaml
 
-    - name: see list
-      run: |-
-        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
-        do
-          for re in $SPECIAL_FILES
-          do
-            if echo "$file" | grep -q -E "$re"; then
-              echo "$file"
-              done=yep
-              break
-            fi
-          done
-          if [[ $done == yep ]]; then
-            break
-          fi
-        done
+  first:
+    needs: get-diff
+    if: ${{ needs.get-diff.outputs.special }}
+    uses: ./.github/workflows/this-first.yaml
 
-  # edit-values:
-  #   uses: ./.github/workflows/edit-values.yaml
+  second:
+  needs: get-diff
+    if: ${{ needs.get-diff.outputs.extra-special }}
+    uses: ./.github/workflows/this-second.yaml
+
+  edit-values:
+  if: ${{ always() }}
+  needs: [first, second]
+    uses: ./.github/workflows/edit-values.yaml
