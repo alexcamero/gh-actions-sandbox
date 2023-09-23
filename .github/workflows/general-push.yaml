@@ -10,7 +10,7 @@ env:
   GH_EMAIL: "alexcamero@gmail.com"
   SPECIAL_FILES: ".github/workflows/* anotherfilehere"
   EXTRA_SPECIAL_FILES: "this_dir/*"
-  FILE_DIFF_WORKFLOW: "alexcamero/gh-actions-sandbox/.github/workflows/file-diff.yaml@main"
+  FILE_DIFF_WORKFLOW: ".github/workflows/file-diff.yaml"
 
 jobs:
   get-diff:
