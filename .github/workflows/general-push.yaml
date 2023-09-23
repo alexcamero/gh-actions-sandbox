@@ -15,7 +15,7 @@ jobs:
 
   second:
   needs: get-diff
-    if: ${{ needs.get-diff.outputs.extra-special }}
+    if: needs.get-diff.outputs.extra-special
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
