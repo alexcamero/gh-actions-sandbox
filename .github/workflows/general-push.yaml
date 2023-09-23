@@ -8,19 +8,35 @@ env:
   GH_PAT: ${{ secrets.GH_TOKEN }}
   GH_USER: "alexcamero"
   GH_EMAIL: "alexcamero@gmail.com"
+  SPECIAL_FILES: ".github/workflows/* anotherfilehere"
+  EXTRA_SPECIAL_FILES: "this_dir/*"
 
 jobs:
   get-diff:
-    uses: ./.github/workflows/file-diff.yaml
+    output:
+      special: ${{ steps.special.output.match-found }}
+      extra-special: ${{ steps.extra-special.output.match-found }}
+
+    steps:
+    - name: check special matches
+      id: special
+      uses: ./.github/workflows/file-diff.yaml
+      with:
+        files: $SPECIAL_FILES
+    - name: check extra special matches
+      id: extra-special
+      uses: ./.github/workflows/file-diff.yaml
+      with:
+        files: $EXTRA_SPECIAL_FILES
 
   first:
     needs: get-diff
-    if: needs.get-diff.outputs.special
+    if: ${{ needs.get-diff.outputs.special }}
     uses: ./.github/workflows/this-first.yaml
 
   second:
     needs: get-diff
-    if: ${{ needs.get-diff.outputs.extra-special == 1 }}
+    if: ${{ needs.get-diff.outputs.extra-special }}
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:

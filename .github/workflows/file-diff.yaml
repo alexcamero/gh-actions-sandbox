@@ -1,64 +1,41 @@
-name: file diff
+name: check for file changes against list of files
+inputs:
+  files:
+    description: 'list of files to check for differences in'
+    required: true
 
-on: [workflow_call]
+outputs:
+  match-found:
+    description: "boolean on whether any of the input files were changed"
+    value: ${{ steps.match-check.outputs.match }}
 
-env:
-  SPECIAL_FILES: "git-approach/* anotherfilehere"
-  EXTRA_SPECIAL_FILES: "this_dir/* .github/workflows/*"
+runs:
+  runs-on: ubuntu-latest
 
-jobs:
-  get-diff:
-    runs-on: ubuntu-latest
+  steps:
+  - name: Checkout
+    uses: actions/checkout@v3
+    with:
+      fetch-depth: 2
 
-    outputs:
-      special: ${{ steps.special.outputs.match }}
-      extraspecial: ${{ steps.extraspecial.outputs.match }}
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 2
-
-    - name: check for special
-      id: special
-      run: |-
-        echo "match=false" >> "$GITHUB_OUTPUT"
-        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+  - name: check for match
+    id: match-check
+    env:
+      FILES: ${{ input.files }}
+    run: |-
+      match=false
+      for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+      do
+        for re in $FILES
         do
-          for re in $SPECIAL_FILES
-          do
-            if echo "$file" | grep -q -E "$re"; then
-              echo "special file matched: $file"
-              match=1
-              break
-            fi
-          done
-          if [[ $match == 1 ]]; then
+          if echo "$file" | grep -q -E "$re"; then
+            echo "file matched: $file"
+            match=true
             break
           fi
         done
-        if [[ $match == 1 ]]; then
-            echo "match=true" >> "$GITHUB_OUTPUT"
+        if [[ $match == true ]]; then
+          break
         fi
-
-    - name: check for extra special
-      id: extraspecial
-      run: |-
-        match=0
-        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
-        do
-          for re in $EXTRA_SPECIAL_FILES
-          do
-            if echo "$file" | grep -q -E "$re"; then
-              echo "extra special file matched: $file"
-              match=1
-              break
-            fi
-          done
-          if [[ $match == 1 ]]; then
-            break
-          fi
-        done
-        echo "match=$match"
-        echo "match=$match" >> "$GITHUB_OUTPUT"
+      done
+      echo "match=$match" >> "$GITHUB_OUTPUT"
