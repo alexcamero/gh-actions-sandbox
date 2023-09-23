@@ -45,21 +45,19 @@ jobs:
     - name: check for extra special
       id: extraspecial
       run: |-
-        echo "match=false" >> "$GITHUB_OUTPUT"
+        match=false
         for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
         do
           for re in $EXTRA_SPECIAL_FILES
           do
             if echo "$file" | grep -q -E "$re"; then
               echo "extra special file matched: $file"
-              match=1
+              match=true
               break
             fi
           done
-          if [[ $match == 1 ]]; then
+          if [[ $match == true ]]; then
             break
           fi
         done
-        if [[ $match == 1 ]]; then
-            echo "match=true" >> "$GITHUB_OUTPUT"
-        fi
+        echo "match=$match" >> "$GITHUB_OUTPUT"
