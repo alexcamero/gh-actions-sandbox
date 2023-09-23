@@ -60,4 +60,5 @@ jobs:
             break
           fi
         done
+        echo "match=$match"
         echo "match=$match" >> "$GITHUB_OUTPUT"
