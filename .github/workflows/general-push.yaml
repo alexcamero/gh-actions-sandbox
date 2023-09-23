@@ -26,10 +26,18 @@ jobs:
   edit-values:
     runs-on: ubuntu-latest 
     if: ${{ always() }}
-    needs: [first, second]
+    needs: [git-diff, first, second]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: let's just take a look at these
+      env:
+        SPECIAL: needs.get-diff.outputs.special
+        EXTRA_SPECIAL: needs.get-diff.outputs.extra-special
+      run: |-
+        echo $SPECIAL
+        echo $EXTRA_SPECIAL
 
     - name: update repo-2
       run: |-
