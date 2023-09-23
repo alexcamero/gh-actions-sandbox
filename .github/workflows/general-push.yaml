@@ -24,13 +24,13 @@ jobs:
 
     - name: check special matches
       id: special
-      uses: ./.github/actions/file-diff
+      uses: ./.github/workflows/file-diff.yaml
       with:
         files: $SPECIAL_FILES
 
     - name: check extra special matches
       id: extra-special
-      uses: ./.github/actions/file-diff
+      uses: ./.github/workflows/file-diff.yaml
       with:
         files: $EXTRA_SPECIAL_FILES
 

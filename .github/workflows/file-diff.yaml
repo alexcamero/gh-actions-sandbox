@@ -1,0 +1,47 @@
+name: check for file changes
+
+on:
+  workflow_call:
+    inputs:
+      files:
+        required: true
+        type: string
+    outputs:
+      match-found:
+        value: ${{ steps.match-check.outputs.match }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      match: ${{ steps.match-check.outputs.match }}
+
+    env:
+      FILES: ${{ inputs.files }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+
+    - name: check for match
+      id: match-check
+      run: |-
+        match=false
+        for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
+        do
+          for re in $FILES
+          do
+            if echo "$file" | grep -q -E "$re"; then
+              echo "file matched: $file"
+              match=true
+              break
+            fi
+          done
+          if [[ $match == true ]]; then
+            break
+          fi
+        done
+        echo "match=$match" >> "$GITHUB_OUTPUT"
