@@ -14,7 +14,7 @@ env:
 jobs:
   get-diff:
     runs-on: ubuntu-latest 
-    output:
+    outputs:
       special: ${{ steps.special.output.match-found }}
       extra-special: ${{ steps.extra-special.output.match-found }}
 
