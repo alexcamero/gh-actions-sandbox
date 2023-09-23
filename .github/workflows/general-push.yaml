@@ -25,12 +25,12 @@ jobs:
 
   first:
     needs: get-special-diff
-    if: ${{ needs.get-special-diff.outputs.match-found == true }}
+    if: ${{ needs.get-special-diff.outputs.match-found == "true" }}
     uses: ./.github/workflows/this-first.yaml
 
   second:
     needs: get-extra-special-diff
-    if: ${{ needs.get-extra-special-diff.outputs.match-found == true }}
+    if: ${{ needs.get-extra-special-diff.outputs.match-found == "true" }}
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
