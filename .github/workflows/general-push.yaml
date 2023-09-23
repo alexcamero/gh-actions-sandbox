@@ -33,8 +33,8 @@ jobs:
 
     - name: let's just take a look at these
       env:
-        SPECIAL: needs.get-diff.outputs.special
-        EXTRA_SPECIAL: needs.get-diff.outputs.extra-special
+        SPECIAL: ${{ needs.get-diff.outputs.special }}
+        EXTRA_SPECIAL: ${{ needs.get-diff.outputs.extra-special }}
       run: |-
         echo $SPECIAL
         echo $EXTRA_SPECIAL
