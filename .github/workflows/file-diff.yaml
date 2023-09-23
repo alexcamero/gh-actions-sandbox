@@ -8,7 +8,7 @@ on:
         type: string
     outputs:
       match-found:
-        value: ${{ steps.match-check.outputs.match }}
+        value: ${{ jobs.check.outputs.match }}
 
 jobs:
   check:
