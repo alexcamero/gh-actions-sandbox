@@ -4,7 +4,7 @@ on: [workflow_call]
 
 env:
   SPECIAL_FILES: "git-approach/* anotherfilehere"
-  EXTRA_SPECIAL_FILES: "this_dir/*"
+  EXTRA_SPECIAL_FILES: "this_dir/* .github/workflows/*"
 
 jobs:
   get-diff:
