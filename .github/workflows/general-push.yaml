@@ -10,7 +10,7 @@ jobs:
 
   first:
     needs: get-diff
-    if: ${{ needs.get-diff.outputs.special }}
+    if: needs.get-diff.outputs.special
     uses: ./.github/workflows/this-first.yaml
 
   second:

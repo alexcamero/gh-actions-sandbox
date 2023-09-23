@@ -12,7 +12,7 @@ jobs:
 
     outputs:
       special: ${{ steps.special.outputs.match }}
-      extra-special: ${{ steps.extra-special.outputs.match }}
+      extraspecial: ${{ steps.extraspecial.outputs.match }}
 
     steps:
     - name: Checkout
@@ -42,7 +42,7 @@ jobs:
         fi
 
     - name: check for extra special
-      id: extra-special
+      id: extraspecial
       run: |-
         echo "match=false" >> "$GITHUB_OUTPUT"
         for file in $(git diff --name-only HEAD^ HEAD | tr '\n' ' ')
