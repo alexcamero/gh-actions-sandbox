@@ -13,50 +13,38 @@ env:
   FILE_DIFF_WORKFLOW: ".github/workflows/file-diff.yaml"
 
 jobs:
-  get-diff:
-    runs-on: ubuntu-latest 
-    outputs:
-      special: ${{ steps.special.output.match-found }}
-      extra-special: ${{ steps.extra-special.output.match-found }}
+  get-special-diff: 
+    uses: ./.github/workflows/file-diff.yaml
+    with:
+      files: ".github/workflows/* anotherfilehere"
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: check special matches
-      id: special
-      uses: .github/workflows/file-diff.yaml
-      with:
-        files: ".github/workflows/* anotherfilehere"
-
-    - name: check extra special matches
-      id: extra-special
-      uses: .github/workflows/file-diff.yaml
-      with:
-        files: "this_dir/*"
+  get-extra-special-diff: 
+    uses: ./.github/workflows/file-diff.yaml
+    with:
+      files: "this_dir/*"
 
   first:
-    needs: get-diff
-    if: ${{ needs.get-diff.outputs.special }}
+    needs: get-special-diff
+    if: ${{ needs.get-special-diff.outputs.match-found }}
     uses: ./.github/workflows/this-first.yaml
 
   second:
-    needs: get-diff
-    if: ${{ needs.get-diff.outputs.extra-special }}
+    needs: get-extra-special-diff
+    if: ${{ needs.get-extra-special-diff.outputs.match-found }}
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
     runs-on: ubuntu-latest 
     if: ${{ always() }}
-    needs: [get-diff, first, second]
+    needs: [get-special-diff, get-extra-special-diff, first, second]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: let's just take a look at these
       env:
-        SPECIAL: ${{ needs.get-diff.outputs.special }}
-        EXTRA_SPECIAL: ${{ needs.get-diff.outputs.extra-special }}
+        SPECIAL: ${{ needs.get-special-diff.outputs.match-found }}
+        EXTRA_SPECIAL: ${{ needs.get-extra-special-diff.outputs.match-found }}
       run: |-
         echo $SPECIAL
         echo $EXTRA_SPECIAL
