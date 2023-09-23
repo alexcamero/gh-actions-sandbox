@@ -25,15 +25,15 @@ jobs:
 
     - name: check special matches
       id: special
-      uses: "$FILE_DIFF_WORKFLOW"
+      uses: $FILE_DIFF_WORKFLOW
       with:
-        files: "$SPECIAL_FILES"
+        files: $SPECIAL_FILES
 
     - name: check extra special matches
       id: extra-special
-      uses: "$FILE_DIFF_WORKFLOW"
+      uses: $FILE_DIFF_WORKFLOW
       with:
-        files: "$EXTRA_SPECIAL_FILES"
+        files: $EXTRA_SPECIAL_FILES
 
   first:
     needs: get-diff
