@@ -4,7 +4,7 @@ on: [workflow_call]
 
 env:
   SPECIAL_FILES: "git-approach/* anotherfilehere"
-  EXTRA_SPECIAL_FILES: "this_dir"
+  EXTRA_SPECIAL_FILES: "this_dir/*"
 
 jobs:
   get-diff:
@@ -29,6 +29,7 @@ jobs:
           for re in $SPECIAL_FILES
           do
             if echo "$file" | grep -q -E "$re"; then
+              echo "special file matched: $file"
               match=1
               break
             fi
@@ -50,6 +51,7 @@ jobs:
           for re in $EXTRA_SPECIAL_FILES
           do
             if echo "$file" | grep -q -E "$re"; then
+              echo "extra special file matched: $file"
               match=1
               break
             fi
