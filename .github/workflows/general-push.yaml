@@ -25,15 +25,15 @@ jobs:
 
     - name: check special matches
       id: special
-      uses: $FILE_DIFF_WORKFLOW
+      uses: .github/workflows/file-diff.yaml
       with:
-        files: $SPECIAL_FILES
+        files: ".github/workflows/* anotherfilehere"
 
     - name: check extra special matches
       id: extra-special
-      uses: $FILE_DIFF_WORKFLOW
+      uses: .github/workflows/file-diff.yaml
       with:
-        files: $EXTRA_SPECIAL_FILES
+        files: "this_dir/*"
 
   first:
     needs: get-diff
