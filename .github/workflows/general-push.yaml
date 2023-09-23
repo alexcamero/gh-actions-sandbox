@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/this-first.yaml
 
   second:
-  needs: get-diff
+    needs: get-diff
     if: needs.get-diff.outputs.extra-special
     uses: ./.github/workflows/this-second.yaml
 
