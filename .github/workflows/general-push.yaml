@@ -24,6 +24,8 @@ jobs:
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
+    runs-on: ubuntu-latest 
+    if: ${{ always() }}
     needs: [first, second]
     steps:
     - name: Checkout
