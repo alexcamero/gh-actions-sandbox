@@ -25,7 +25,7 @@ jobs:
       run: |-
         git config --global user.email $EMAIL
         git config --global user.name $USER
-        git clone --single-branch --branch main "https://${{ secrets.GH_TOKEN }}@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
+        git clone --single-branch --branch main "https://$GH_PAT@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
         cp values.yaml repo-2/values.yaml
         cp -R git-approach/ repo-2
         cd repo-2
