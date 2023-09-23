@@ -10,13 +10,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # - name: Get updated values
-    #   id: get-values
-    #   run: |-
-    #     echo "new_values<<EOF" >> $GITHUB_OUTPUT
-    #     echo "$(cat values.yaml)" >> $GITHUB_OUTPUT
-    #     echo "EOF" >> $GITHUB_OUTPUT
-
     - name: update repo 2
       run: |-
         git config --global user.email $EMAIL
@@ -29,20 +22,3 @@ jobs:
         git add .
         git diff-index --quiet HEAD || git commit --message "update $GITHUB_SHA"
         git push origin
-
-
-    # - name: Checkout
-    #   uses: actions/checkout@v3
-    #   with:
-    #     repository: alexcamero/gh-actions-sandbox-2
-    #     token: ${{ secrets.GH_TOKEN }}
-      
-    # - name: write new value
-    #   run: |-
-          
-    #       echo "${{ steps.get-values.outputs.new_values }}" > values.yaml
-    #       yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
-    #       git add values.yaml
-    #       git commit -m "updating values file and latestSha --> $GITHUB_SHA"
-    #       git push
-        

@@ -24,7 +24,6 @@ jobs:
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
-    if: ${{ always() }}
     needs: [first, second]
     steps:
     - name: Checkout
@@ -42,4 +41,3 @@ jobs:
         git add .
         git diff-index --quiet HEAD || git commit --message "update $GITHUB_SHA"
         git push origin
-    # uses: ./.github/workflows/edit-values.yaml
