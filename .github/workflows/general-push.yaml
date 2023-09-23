@@ -6,6 +6,8 @@ on:
 
 env:
   GH_PAT: ${{ secrets.GH_TOKEN }}
+  GH_USER: "alexcamero"
+  GH_EMAIL: "alexcamero@gmail.com"
 
 jobs:
   get-diff:
@@ -24,4 +26,20 @@ jobs:
   edit-values:
     if: ${{ always() }}
     needs: [first, second]
-    uses: ./.github/workflows/edit-values.yaml
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: update repo-2
+      run: |-
+        git config --global user.email $GH_EMAIL
+        git config --global user.name $GH_USER
+        git clone --single-branch --branch main "https://$GH_PAT@github.com/alexcamero/gh-actions-sandbox-2.git" repo-2
+        cp values.yaml repo-2/values.yaml
+        cp -R git-approach/ repo-2
+        cd repo-2
+        yq -i  '.latestSha = "${{ github.sha }}"' values.yaml
+        git add .
+        git diff-index --quiet HEAD || git commit --message "update $GITHUB_SHA"
+        git push origin
+    # uses: ./.github/workflows/edit-values.yaml

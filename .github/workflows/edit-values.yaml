@@ -1,11 +1,7 @@
 name: edit values file in other repo
 
 on: [workflow_call]
-
-env:
-  USER: "alexcamero"
-  EMAIL: "alexcamero@gmail.com"
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest    
