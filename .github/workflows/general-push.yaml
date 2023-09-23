@@ -19,11 +19,15 @@ jobs:
       extra-special: ${{ steps.extra-special.output.match-found }}
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
     - name: check special matches
       id: special
       uses: ./.github/actions/file-diff.yaml
       with:
         files: $SPECIAL_FILES
+        
     - name: check extra special matches
       id: extra-special
       uses: ./.github/actions/file-diff.yaml
