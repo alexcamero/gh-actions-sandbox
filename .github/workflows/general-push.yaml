@@ -19,6 +19,6 @@ jobs:
     uses: ./.github/workflows/this-second.yaml
 
   edit-values:
-  if: ${{ always() }}
-  needs: [first, second]
+    if: ${{ always() }}
+    needs: [first, second]
     uses: ./.github/workflows/edit-values.yaml
