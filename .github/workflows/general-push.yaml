@@ -13,6 +13,7 @@ env:
 
 jobs:
   get-diff:
+    runs-on: ubuntu-latest 
     output:
       special: ${{ steps.special.output.match-found }}
       extra-special: ${{ steps.extra-special.output.match-found }}
@@ -20,12 +21,12 @@ jobs:
     steps:
     - name: check special matches
       id: special
-      uses: ./.github/workflows/file-diff.yaml
+      uses: ./.github/actions/file-diff.yaml
       with:
         files: $SPECIAL_FILES
     - name: check extra special matches
       id: extra-special
-      uses: ./.github/workflows/file-diff.yaml
+      uses: ./.github/actions/file-diff.yaml
       with:
         files: $EXTRA_SPECIAL_FILES
 
