@@ -1,6 +1,11 @@
 name: check for file changes
 
-on: [workflow_call]
+on:
+  workflow_call:
+    inputs:
+      prefix:
+        required: true
+        type: string
 
 jobs:
   check:
@@ -13,11 +18,22 @@ jobs:
         fetch-depth: 0
     
     - name: dump gh context
+      id: dump
       env:
         EVENT_BEFORE: ${{ github.event.before }}
         EVENT_BASE_REF: ${{ github.event.base_ref }}
         GH_CONTEXT: ${{ toJson(github) }}
       run: |-
+        echo "current sha: $GITHUB_SHA"
+        echo "base ref: $EVENT_BASE_REF"
+        echo "before: $EVENT_BEFORE"
+        echo "gh ctx: $GH_CONTEXT"
+
+    - name: report
+      env:
+        STEPS: ${{ toJson(steps) }}
+      run: |-
+        echo "steps: $STEPS"
         echo "current sha: $GITHUB_SHA"
         echo "base ref: $EVENT_BASE_REF"
         echo "before: $EVENT_BEFORE"
