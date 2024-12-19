@@ -1,0 +1,9 @@
+name: fancy branch push
+
+on:
+  push:
+    branches: [ fancy-* ]
+
+jobs:
+  looking-at-info: 
+    uses: ./.github/workflows/file-diff-better.yaml
