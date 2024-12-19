@@ -1,11 +1,6 @@
 name: check for file changes
 
-on:
-  workflow_call:
-    inputs:
-      prefix:
-        required: true
-        type: string
+on: [workflow_call]
 
 jobs:
   check:
