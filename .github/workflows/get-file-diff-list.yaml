@@ -22,4 +22,5 @@ jobs:
 
     - name: Get last tag that deployed
       run: |-
+        git tag --sort=-committerdate | tr -d " \t" | grep "^fancy-"
         git tag --sort=-committerdate | tr -d " \t" | grep "^fancy-" | head -2 | tail -1
