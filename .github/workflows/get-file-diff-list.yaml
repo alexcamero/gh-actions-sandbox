@@ -22,4 +22,4 @@ jobs:
 
     - name: List tags reverse chronological order
       run: |-
-        git tag --sort=-committerdate | tr -d " \t" | grep "^$TAG_PREFIX"
+        git tag --sort=-committerdate | tr -d " \t" | grep "^fancy-"
