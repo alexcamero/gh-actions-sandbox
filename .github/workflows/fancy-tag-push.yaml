@@ -1,0 +1,14 @@
+name: fancy branch push
+
+on:
+  push:
+    tags: [ fancy-* ]
+
+env:
+  TAG_PREFIX: "fancy-"
+
+jobs:
+  file-diff: 
+    uses: ./.github/workflows/get-file-diff-list.yaml
+    with:
+      tag-prefix: "$TAG_PREFIX"

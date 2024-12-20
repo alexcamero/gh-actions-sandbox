@@ -1,0 +1,25 @@
+name: check for file changes
+
+on:
+  workflow_call:
+    inputs:
+      tag-prefix:
+        required: true
+        type: string
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    env:
+      TAG_PREFIX: ${{ inputs.tag-prefix }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: List tags reverse chronological order
+      run: |-
+        git tag --sort=-committerdate | tr -d " \t" | grep "^$TAG_PREFIX"
