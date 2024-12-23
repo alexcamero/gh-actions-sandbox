@@ -4,8 +4,8 @@ on: [workflow_call]
 
 jobs:
   build-too:
-  env:
-    HEY: ${{ secrets.HEY_THERE }}
+    env:
+      HEY: ${{ secrets.HEY_THERE }}
 
     runs-on: ubuntu-latest    
 
