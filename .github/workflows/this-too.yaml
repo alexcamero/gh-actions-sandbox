@@ -1,0 +1,17 @@
+name: this one happens too
+
+on: [workflow_call]
+
+jobs:
+  build-too:
+  env:
+    HEY: ${{ secrets.HEY_THERE }}
+
+    runs-on: ubuntu-latest    
+
+    steps:
+    - name: Checkout too
+      uses: actions/checkout@v3
+
+    - name: and now do this thing here
+      run: echo $HEY

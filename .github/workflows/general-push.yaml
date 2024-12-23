@@ -33,6 +33,9 @@ jobs:
     if: ${{ needs.get-extra-special-diff.outputs.match-found == 'true' }}
     uses: ./.github/workflows/this-second.yaml
 
+  picking-up-secrets-test:
+    uses: ./.github/workflows/this-too.yaml
+
   edit-values:
     runs-on: ubuntu-latest 
     if: ${{ always() }}
